@@ -1,6 +1,6 @@
 # Zero To Sixty - Usage Guide
 
-Quick start guide and examples for the AI Code Review Agent.
+Quick start guide and examples for the practical AI agent guide and code review agent.
 
 ---
 
@@ -33,6 +33,9 @@ cp .env.example .env
 ```bash
 # Review a file
 python main.py -f examples/sample_code.py
+
+# Print the practical AI agent guide
+python main.py -g
 
 # Or interactive mode
 python main.py
@@ -100,6 +103,12 @@ Output:
 
 ```bash
 python main.py -f mycode.py -d -s --json
+```
+
+### Print the AI Agent Guide
+
+```bash
+python main.py -g
 ```
 
 ---

@@ -7,7 +7,11 @@ import os
 import json
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = lambda: None
 
 load_dotenv()
 

@@ -6,7 +6,11 @@ Interacts with Google Gemini API to provide intelligent code feedback
 import json
 import os
 from typing import Dict, Any, Optional
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = lambda: None
 
 # Load environment variables
 load_dotenv()

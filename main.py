@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Zero To Sixty - AI Code Review Agent
+Zero To Sixty - Practical Guide to AI Agents
 Main entry point for the application
 """
 
@@ -13,7 +13,6 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).parent))
 
 from analysis import StaticAnalyzer
-from agent import GeminiAgent
 from docs import GoogleDocsGenerator
 
 
@@ -26,8 +25,9 @@ class CodeReviewSystem:
         self.ai_agent = None
         self.docs_generator = GoogleDocsGenerator()
         
-        # Initialize AI agent with fallback for missing API key
+        # Initialize AI agent with fallback for missing API key or dependencies
         try:
+            from agent import GeminiAgent
             self.ai_agent = GeminiAgent()
         except (ValueError, ImportError) as e:
             print(f"⚠️  AI Agent not available: {e}")
@@ -194,17 +194,26 @@ def get_code_from_file(filepath: str) -> Optional[str]:
         return None
 
 
+def load_agent_guide() -> str:
+    """Load the practical AI agent guide content from the repository"""
+    guide_path = Path(__file__).parent / "AGENT_GUIDE.md"
+    if guide_path.exists():
+        return guide_path.read_text(encoding="utf-8")
+    return "Agent guide not found. Please ensure AGENT_GUIDE.md exists in the project root."
+
+
 def main():
     """Main entry point"""
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Zero To Sixty - AI Code Review Agent",
+        description="Zero To Sixty - Practical Guide to AI Agents",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   python main.py                    # Interactive mode
   python main.py -f mycode.py       # Review from file
+  python main.py -g                # Print AI agent guide
   python main.py -f mycode.py -d   # Generate documentation
         """
     )
@@ -212,6 +221,9 @@ Examples:
     parser.add_argument('-f', '--file', 
                        type=str, 
                        help='Python file to review')
+    parser.add_argument('-g', '--guide', 
+                       action='store_true', 
+                       help='Print the practical AI agent guide')
     parser.add_argument('-d', '--docs', 
                        action='store_true', 
                        help='Generate documentation')
@@ -225,8 +237,12 @@ Examples:
     args = parser.parse_args()
 
     print("\n" + "="*70)
-    print("ZERO TO SIXTY - AI Code Review Agent")
+    print("ZERO TO SIXTY - Practical Guide to AI Agents")
     print("="*70 + "\n")
+
+    if args.guide:
+        print(load_agent_guide())
+        return
 
     # Initialize system
     system = CodeReviewSystem()
